@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { signIn } from '../../store/actions/authActions'
 
 class SignIn extends Component {
   state = {
     email: '',
-    password: '',
-    firstname: '',
-    lastname: ''
+    password: ''
   }
 
-  handleSubmit(e) {
-    console.log(e)
+  handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
   }
 
-  handleChange(e) {
-    console.log(e)
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.signIn(this.state);
   }
 
   render() {
@@ -38,4 +41,10 @@ class SignIn extends Component {
   }
  }
 
-export default SignIn
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn: (creds) => dispatch(signIn(creds))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SignIn)
